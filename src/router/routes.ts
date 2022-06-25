@@ -1,12 +1,15 @@
 import { RouteRecordRaw } from 'vue-router';
-
+import { adminRoutes } from './routes/admin';
+/**
+ * routes
+ */
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
   },
-
+  adminRoutes,
   // Always leave this as last one,
   // but you can also remove it
   {
