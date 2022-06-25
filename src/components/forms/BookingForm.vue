@@ -7,7 +7,7 @@
       <q-card-section class="q-gutter-y-sm">
         <div class="row q-col-gutter-md">
           <div class="col-xs-12 text-center">
-            <div class="text-body1">Información Personal</div>
+            <div class="text-h6">Información Personal</div>
           </div>
           <!-- First Name -->
           <div class="col-xs-12 col-sm-6">
@@ -41,7 +41,7 @@
           <!-- / Address -->
 
           <div class="col-xs-12 text-center">
-            <div class="text-body1">Contacto</div>
+            <div class="text-h6">Contacto</div>
           </div>
           <!-- Email -->
           <div class="col-xs-12 col-sm-6">
@@ -60,7 +60,7 @@
           <!-- / Phone -->
 
           <div class="col-xs-12 text-center">
-            <div class="text-body1">Información de Viaje</div>
+            <div class="text-h6">Información de Viaje</div>
           </div>
           <!-- Airline Name -->
           <div class="col-xs-12 col-sm-6">
@@ -93,7 +93,7 @@
           <!-- / Passport -->
 
           <div class="col-xs-12 text-center">
-            <div class="text-body1">Información de Reserva</div>
+            <div class="text-h6">Información de Reserva</div>
           </div>
           <!-- Room Type -->
           <div class="col-xs-12 col-sm-6">
@@ -116,12 +116,23 @@
             />
           </div>
           <!-- / Price -->
+
           <!-- Date -->
           <div class="col-xs-12 col-sm-6 text-center">
             <div class="text-body1">Fecha</div>
             <q-date v-model="form.date" range required />
           </div>
           <!-- / Date -->
+
+          <!-- Comments -->
+          <div class="col-xs-12">
+            <q-input
+              v-model="form.commments"
+              type="textarea"
+              label="Observaciones"
+            />
+          </div>
+          <!-- / Comments -->
         </div>
       </q-card-section>
 
@@ -152,7 +163,8 @@ const $emit = defineEmits<{
  *	Data
  * -----------------------------------------
  */
-const form = ref<Omit<IBooking, 'id'>>({
+const form = ref<IBooking>({
+  id: 0,
   airline_fly: '',
   airline_name: '',
   first_name: '',
@@ -167,6 +179,7 @@ const form = ref<Omit<IBooking, 'id'>>({
     from: '',
     to: '',
   },
+  commments: '',
 });
 /**
  * -----------------------------------------
@@ -177,8 +190,7 @@ const form = ref<Omit<IBooking, 'id'>>({
  * On submit
  */
 async function onSubmit() {
-  console.log('onSubmit');
-  console.log(form.value);
+  form.value.id = 1;
   $emit('completed', form.value);
 }
 </script>
