@@ -4,11 +4,11 @@
       <q-card class="no-box-shadow">
         <q-card-section>
           <q-btn
-            outline
             dense
             color="primary"
             icon="mdi-plus"
             label="Nueva Reserva"
+            class="full-width"
             @click="dialogForm = true"
           />
         </q-card-section>
@@ -45,7 +45,26 @@ import { ref } from 'vue';
  * -----------------------------------------
  */
 const dialogForm = ref(false);
-const bookings = ref<IBooking[]>([]);
+const bookings = ref<IBooking[]>([
+  {
+    address: 'Calle Silencio #32',
+    airline_fly: '512',
+    airline_name: 'TransGaviota',
+    currency: 'USD',
+    date: {
+      from: '2022/06/13',
+      to: '2022/06/25',
+    },
+    first_name: 'Adrian',
+    id: 1,
+    last_name: 'Capote Quintana',
+    passport: '874842135678',
+    phone: '53375180',
+    price: 250,
+    room_type: 'Cuadruple',
+    email: 'acq95@nauta.cu',
+  },
+]);
 /**
  * -----------------------------------------
  *	Methods

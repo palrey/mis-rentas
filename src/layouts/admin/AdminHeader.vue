@@ -1,14 +1,7 @@
 <template>
   <q-header reveal elevated class="bg-primary text-white" height-hint="98">
     <q-toolbar>
-      <q-btn
-        v-if="isMobile"
-        dense
-        flat
-        round
-        icon="mdi-menu"
-        @click="toggleLeftDrawer"
-      />
+      <q-btn dense flat round icon="mdi-menu" @click="toggleLeftDrawer" />
 
       <q-toolbar-title>
         {{ appTitle }}

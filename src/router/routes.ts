@@ -10,6 +10,10 @@ const routes: RouteRecordRaw[] = [
     children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
   },
   adminRoutes,
+  {
+    path: '/booking-details',
+    component: () => import('pages/BookingDetails.vue'),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

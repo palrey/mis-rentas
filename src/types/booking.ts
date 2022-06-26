@@ -11,6 +11,7 @@ export interface IBooking {
   passport: string;
   date: { from: string; to: string };
   price: number;
+  currency: 'MX' | 'CUP' | 'USD' | 'EUR';
   airline_name: string;
   airline_fly: string;
   room_type: 'Sencilla' | 'Doble' | 'Triple' | 'Cuadruple';

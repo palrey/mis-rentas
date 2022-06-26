@@ -16,5 +16,10 @@ export const adminRoutes: RouteRecordRaw = {
       name: ROUTE_NAME.ADMIN_BOOKINGS,
       component: () => import('pages/admin/AdminBooking.vue'),
     },
+    {
+      path: 'bookings/:code',
+      name: ROUTE_NAME.ADMIN_BOOKING,
+      component: () => import('pages/BookingDetails.vue'),
+    },
   ],
 };
