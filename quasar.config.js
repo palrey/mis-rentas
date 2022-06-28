@@ -61,14 +61,14 @@ module.exports = configure(function (/* ctx */) {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: '/admin',
+      publicPath: '/',
       // analyze: true,
       // env: {},
       // rawDefine: {}
       ignorePublicFolder: false,
       // minify: false,
       // polyfillModulePreload: true,
-      distDir: '../rentas/public/admin',
+      // distDir: '../rentas/public/admin',
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},

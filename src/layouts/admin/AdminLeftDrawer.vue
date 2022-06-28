@@ -8,19 +8,8 @@
     <div class="q-pa-md text-grey-9 text-center">{{ appTitle }}</div>
 
     <q-list class="rounded-borders text-grey-9">
-      <!-- HOME -->
-      <q-item exact clickable :to="{ name: ROUTE_NAME.ADMIN_HOME }">
-        <q-item-section avatar top>
-          <q-avatar size="md" icon="mdi-home" text-color="primary" />
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label lines="1">Inicio</q-item-label>
-        </q-item-section>
-      </q-item>
-      <!-- / HOME -->
       <!-- Bookings -->
-      <q-item exact clickable :to="{ name: ROUTE_NAME.ADMIN_BOOKINGS }">
+      <q-item exact clickable :to="{ name: ROUTE_NAME.BOOKING_HOME }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-cart" text-color="primary" />
         </q-item-section>

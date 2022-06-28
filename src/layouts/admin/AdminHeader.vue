@@ -9,8 +9,7 @@
     </q-toolbar>
 
     <q-tabs align="left" v-if="!isMobile">
-      <q-route-tab :to="{ name: ROUTE_NAME.ADMIN_HOME }" label="Inicio" />
-      <q-route-tab :to="{ name: ROUTE_NAME.ADMIN_BOOKINGS }" label="Reservas" />
+      <q-route-tab :to="{ name: ROUTE_NAME.BOOKING_HOME }" label="Reservas" />
     </q-tabs>
   </q-header>
 </template>
