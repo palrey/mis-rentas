@@ -6,7 +6,7 @@ declare module '@vue/runtime-core' {
     $axios: AxiosInstance;
   }
 }
-export const baseURL = 'https:/rentas.palrey.com';
+export const baseURL = 'https://rentas.palrey.com';
 
 const $api = axios.create({
   baseURL: `${baseURL}`,
