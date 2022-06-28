@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 import { ROUTE_NAME } from './name';
 
 export const adminRoutes: RouteRecordRaw = {
-  path: '/admin',
+  path: '/',
   component: AdminLayoutVue,
   children: [
     {

@@ -11,7 +11,6 @@
     <q-tabs align="left" v-if="!isMobile">
       <q-route-tab :to="{ name: ROUTE_NAME.ADMIN_HOME }" label="Inicio" />
       <q-route-tab :to="{ name: ROUTE_NAME.ADMIN_BOOKINGS }" label="Reservas" />
-      <q-route-tab to="/page3" label="Page Three" />
     </q-tabs>
   </q-header>
 </template>

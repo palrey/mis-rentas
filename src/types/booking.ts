@@ -15,5 +15,6 @@ export interface IBooking {
   airline_name: string;
   airline_fly: string;
   room_type: 'Sencilla' | 'Doble' | 'Triple' | 'Cuadruple';
-  commments?: string;
+  comments?: string;
+  report_code?: string;
 }

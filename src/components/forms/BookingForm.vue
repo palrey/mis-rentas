@@ -96,7 +96,7 @@
             <div class="text-h6">Información de Reserva</div>
           </div>
           <!-- Room Type -->
-          <div class="col-xs-12 col-sm-6">
+          <div class="col-xs-12">
             <q-select
               required
               v-model="form.room_type"
@@ -127,7 +127,7 @@
           <!-- / Price -->
 
           <!-- Date -->
-          <div class="col-xs-12 col-sm-6 text-center">
+          <div :class="`col-xs-12 text-center`">
             <div class="text-body1">Fecha</div>
             <q-date v-model="form.date" range required />
           </div>
@@ -136,7 +136,7 @@
           <!-- Comments -->
           <div class="col-xs-12">
             <q-input
-              v-model="form.commments"
+              v-model="form.comments"
               type="textarea"
               label="Observaciones"
             />
@@ -160,13 +160,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import { IBooking } from 'src/types';
+import { $notificationHelper, handleAxiosError } from 'src/helpers';
+import { $api } from 'src/boot/axios';
 
 const $emit = defineEmits<{
   (name: 'completed', p: IBooking): void;
+  (name: 'updated', p: IBooking): void;
   (name: 'canceled'): void;
 }>();
+const $props = defineProps<{ booking?: IBooking }>();
 /**
  * -----------------------------------------
  *	Data
@@ -188,7 +192,7 @@ const form = ref<IBooking>({
     from: '',
     to: '',
   },
-  commments: '',
+  comments: '',
   currency: 'USD',
 });
 /**
@@ -200,7 +204,31 @@ const form = ref<IBooking>({
  * On submit
  */
 async function onSubmit() {
-  form.value.id = 1;
-  $emit('completed', form.value);
+  try {
+    $notificationHelper.loading();
+    if ($props.booking && $props.booking.id) {
+      $emit(
+        'updated',
+        (
+          await $api.patch<IBooking>(
+            `api/bookings/${$props.booking.id}`,
+            form.value
+          )
+        ).data
+      );
+    } else {
+      const data = (await $api.post<IBooking>('api/bookings', form.value)).data;
+      $emit('completed', data);
+    }
+  } catch (error) {
+    handleAxiosError(error);
+  }
+  $notificationHelper.loading(false);
 }
+
+onBeforeMount(() => {
+  if ($props.booking) {
+    form.value = $props.booking;
+  }
+});
 </script>

@@ -1,39 +1,21 @@
 <template>
   <div class="row justify-center">
     <q-card>
-      <q-card-section>
-        <booking-report
-          id="booking-report"
-          :booking="{
-            address: 'Calle Silencio #32',
-            airline_fly: '512',
-            airline_name: 'TransGaviota',
-            currency: 'USD',
-            date: {
-              from: '2022/06/13',
-              to: '2022/06/25',
-            },
-            first_name: 'Adrian',
-            id: 1,
-            last_name: 'Capote Quintana',
-            passport: '874842135678',
-            phone: '53375180',
-            price: 250,
-            room_type: 'Cuadruple',
-            email: 'acq95@nauta.cu',
-          }"
-        />
+      <q-card-section v-if="booking">
+        <booking-report id="booking-report" :booking="booking" />
       </q-card-section>
     </q-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ROUTE_NAME } from 'src/router';
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import { useRoute } from 'vue-router';
 // import JsPDF from 'jspdf';
 import BookingReport from 'src/components/widgets/BookingReportWidget.vue';
+import { IBooking } from 'src/types';
+import { handleAxiosError } from 'src/helpers';
+import { $api } from 'src/boot/axios';
 
 /**
  * -----------------------------------------
@@ -41,6 +23,12 @@ import BookingReport from 'src/components/widgets/BookingReportWidget.vue';
  * -----------------------------------------
  */
 const $route = useRoute();
+/**
+ * -----------------------------------------
+ *	Data
+ * -----------------------------------------
+ */
+const booking = ref<IBooking>();
 /**
  * -----------------------------------------
  *	Methods
@@ -62,9 +50,18 @@ const $route = useRoute();
 //     });
 //   }
 // }
-onBeforeMount(() => {
-  if ($route.name === ROUTE_NAME.ADMIN_BOOKING) {
-    console.log('Admin.Booking');
+onBeforeMount(async () => {
+  if ($route.query.code) {
+    try {
+      const resp = await $api.get<IBooking>('api/bookings/report', {
+        params: {
+          code: $route.query.code,
+        },
+      });
+      booking.value = resp.data;
+    } catch (error) {
+      handleAxiosError(error);
+    }
   }
 });
 </script>

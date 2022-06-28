@@ -8,7 +8,7 @@
         spinner-color="primary"
         spinner-size="82px"
       />
-      <div class="text-h6">Información de Reserva</div>
+      <div class="text-h6">Comprobante de Reserva</div>
     </q-card-section>
 
     <q-card-section class="text-justify text-subtitle2">
@@ -85,7 +85,7 @@
           <div>
             <div class="text-grey-7">Fecha Entrada / Check in</div>
             <div class="text-bold">
-              {{ $props.booking.date.from }}
+              {{ date.formatDate($props.booking.date.from, 'DD/MM/YYYY') }}
             </div>
           </div>
           <!-- / Check in -->
@@ -93,7 +93,7 @@
           <div>
             <div class="text-grey-7">Fecha Salida / Check out</div>
             <div class="text-bold">
-              {{ $props.booking.date.to }}
+              {{ date.formatDate($props.booking.date.to, 'DD/MM/YYYY') }}
             </div>
           </div>
           <!-- / Check out -->
@@ -112,9 +112,9 @@
           <!-- / Currency -->
           <!-- Price -->
           <div>
-            <div class="text-grey-7">Tarifa / Currency</div>
+            <div class="text-grey-7">Tarifa / Rate</div>
             <div class="text-bold">
-              {{ $props.booking.price.toFixed(2) }}
+              {{ Number($props.booking.price).toFixed(2) }}
             </div>
           </div>
           <!-- / Price -->
@@ -128,13 +128,21 @@
           <!-- / Total -->
         </div>
         <!-- / Col -->
+
+        <div class="col-xs-12 q-mt-lg text-center text-caption q-gutter-y-none">
+          <div>
+            Dirección: Supermanzana 4, Manzana 6, Lote 6, Calle Fuego #28
+          </div>
+          <div>Código Postal: 77500</div>
+          <div>Contacto: 9-981-291-807</div>
+        </div>
         <div class="col-xs-12 text-center q-gutter-y-sm">
           <qrcode-vue :value="qrcode" :size="200" />
         </div>
       </div>
     </q-card-section>
-    <q-card-section>
-      <p class="text-center text-caption">RENTAS PALREY 2022</p>
+    <q-card-section class="text-center text-caption q-gutter-y-none">
+      <div>RENTAS PALREY {{ year }}</div>
     </q-card-section>
   </q-card>
 </template>
@@ -164,12 +172,25 @@ const qrcode = computed(
       $props.booking.date.to
     }\n${totalPrice.value.toFixed(2)} ${$props.booking.currency}`
 );
-const diffDays = computed(() =>
-  date.getDateDiff($props.booking.date.to, $props.booking.date.from, 'days')
-);
+const diffDays = computed(() => {
+  if (
+    $props.booking &&
+    $props.booking.date &&
+    $props.booking.date.from &&
+    $props.booking.date.to
+  ) {
+    return date.getDateDiff(
+      $props.booking.date.to,
+      $props.booking.date.from,
+      'days'
+    );
+  }
+  return 0;
+});
 const totalPrice = computed(() => {
   return diffDays.value * $props.booking.price;
 });
+const year = computed(() => new Date().getFullYear());
 /**
  * -----------------------------------------
  *	Methods
