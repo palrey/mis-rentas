@@ -54,21 +54,21 @@ module.exports = configure(function (/* ctx */) {
         node: 'node16',
       },
 
-      vueRouterMode: 'history', // available values: 'hash', 'history'
+      vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      // publicPath: '/',
+      publicPath: '/admin',
       // analyze: true,
       // env: {},
       // rawDefine: {}
       ignorePublicFolder: false,
       // minify: false,
       // polyfillModulePreload: true,
-      // distDir
+      distDir: '../rentas/public/admin',
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
