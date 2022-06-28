@@ -34,18 +34,12 @@
 <script lang="ts" setup>
 import AdminHeader from './AdminHeader.vue';
 import AdminLeftDrawer from './AdminLeftDrawer.vue';
-// import AdminFooter from './AdminFooter.vue';
-import { $appInjectable, _appInjectable } from 'src/injectables';
-import { computed, provide } from 'vue';
-// import { useQuasar } from 'quasar';
+import { computed } from 'vue';
+import { useMeta } from 'quasar';
 
-// const $q = useQuasar();
-/**
- * -----------------------------------------
- *	Provide
- * -----------------------------------------
- */
-provide(_appInjectable, $appInjectable);
+useMeta({
+  title: 'PalRey | Mis Rentas',
+});
 
 const isMobile = computed(() => true);
 // const isMobile = computed(() => $q.platform.is.mobile);

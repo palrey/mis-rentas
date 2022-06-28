@@ -1,54 +1,29 @@
 <template>
-  <q-card class="login-card">
-    <q-card-section class="text-center text-grey-9">
-      <div class="text-body1">
-        Inicia sesión para vivir una mejor experiencia
-      </div>
-    </q-card-section>
-    <q-form @submit.prevent="login">
-      <q-card-section class="q-gutter-y-md">
-        <!-- <map-locality-selector in-auth /> -->
+  <q-card style="max-width: 25rem" class="no-box-shadow">
+    <q-form @submit.prevent="onSubmit">
+      <q-card-section>
+        <div class="text-body1 text-center">Entrar en Mis Rentas</div>
+      </q-card-section>
+      <q-card-section class="q-gutter-y-sm">
+        <!-- Email -->
+        <q-input v-model="form.email" name="email" type="email" label="Email" />
+        <!-- / Email -->
+        <!-- Password -->
         <q-input
-          name="email"
-          v-model="loginForm.email"
-          type="email"
-          label="Email"
-          :error="$v.email.$error"
-          bottom-slots
-        >
-          <template v-slot:error>
-            <div v-for="e of $v.email.$errors" :key="e.$uid">
-              {{ e.$message }}
-            </div>
-          </template>
-        </q-input>
-        <q-input
+          v-model="form.password"
           name="password"
-          v-model="loginForm.password"
           type="password"
           label="Contraseña"
-          :error="$v.password.$error"
-          bottom-slots
-        >
-          <template v-slot:error>
-            <div v-for="e of $v.password.$errors" :key="e.$uid">
-              {{ e.$message }}
-            </div>
-          </template>
-        </q-input>
-      </q-card-section>
-      <q-card-section
-        class="text-primary cursor-pointer"
-        @click="$emit('toggle')"
-      >
-        No tengo cuenta
+        />
+        <!-- / Password -->
       </q-card-section>
       <q-card-actions>
         <q-btn
-          class="full-width"
           color="primary"
+          icon="mdi-check"
           label="Iniciar"
           type="submit"
+          class="full-width"
         />
       </q-card-actions>
     </q-form>
@@ -56,70 +31,59 @@
 </template>
 
 <script setup lang="ts">
+import { $api } from 'src/boot/axios';
+import { $notificationHelper, handleAxiosError } from 'src/helpers';
+import { injectStrict, _appInjectable } from 'src/injectables';
+import { ROUTE_NAME } from 'src/router';
 import { ref } from 'vue';
-import { notificationHelper } from 'src/helpers';
-import { IUserAuthLoginRequest } from 'src/api';
-import { injectStrict, _user } from 'src/injectables';
-import useVuelidate from '@vuelidate/core';
-import { required, email, helpers } from '@vuelidate/validators';
-// import MapLocalitySelector from './MapLocalitySelector.vue';
+import { useRouter } from 'vue-router';
+
+/**
+ * IAuth
+ */
+interface IAuth {
+  email: string;
+  password: string;
+}
 /**
  * -----------------------------------------
- *	Init
+ *	Inject
  * -----------------------------------------
  */
-const $emit = defineEmits<{ (e: 'toggle'): void; (e: 'auth'): void }>();
-const $user = injectStrict(_user);
+const $app = injectStrict(_appInjectable);
+const $router = useRouter();
 /**
  * -----------------------------------------
  *	Data
  * -----------------------------------------
  */
-const loginForm = ref<IUserAuthLoginRequest>({
+const form = ref<IAuth>({
   email: '',
   password: '',
 });
 /**
  * -----------------------------------------
- *	methods
+ *	Methods
  * -----------------------------------------
  */
-// validator
-const $v = useVuelidate(
-  {
-    email: {
-      required: helpers.withMessage('El email es necesario', required),
-      email: helpers.withMessage('El email no es válido', email),
-    },
-    password: {
-      required: helpers.withMessage('La contraseña es necesaria', required),
-    },
-  },
-  loginForm
-);
-
 /**
- * login
+ * On Submit
  */
-async function login() {
-  // Validate
-  if (await $v.value.$validate()) {
-    notificationHelper.loading();
-    try {
-      await $user.loginAction(loginForm.value);
-      notificationHelper.success([`Bienvenido ${$user.profile?.first_name}`]);
-      $emit('auth');
-    } catch (error) {
-      notificationHelper.axiosError(error, 'Credenciales incorrectas');
+async function onSubmit() {
+  $notificationHelper.loading();
+  try {
+    const resp = await $api.post<{ api_token: string }>(
+      'api/users/login',
+      form.value
+    );
+    if (resp.data.api_token) {
+      $app.api_token = resp.data.api_token;
+      $app.save();
+      void $router.push({ name: ROUTE_NAME.BOOKING_HOME });
     }
-    notificationHelper.loading(false);
+  } catch (error) {
+    handleAxiosError(error);
   }
+  $notificationHelper.loading(false);
 }
 </script>
-
-<style scoped>
-.login-card {
-  max-width: 25rem;
-  min-width: 20rem;
-}
-</style>

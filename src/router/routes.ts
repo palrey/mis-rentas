@@ -11,6 +11,11 @@ const routes: RouteRecordRaw[] = [
     name: ROUTE_NAME.BOOKING_REPORT,
     component: () => import('src/pages/booking/BookingDetails.vue'),
   },
+  {
+    path: '/login',
+    name: ROUTE_NAME.AUTH_LOGIN,
+    component: () => import('src/layouts/AuthLayout.vue'),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

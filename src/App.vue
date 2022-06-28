@@ -3,9 +3,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useMeta } from 'quasar';
+import { provide } from 'vue';
+import { $appInjectable, _appInjectable } from './injectables';
+/**
+ * -----------------------------------------
+ *	Provide
+ * -----------------------------------------
+ */
+provide(_appInjectable, $appInjectable);
 
-useMeta({
-  title: 'PalRey | Mis Rentas',
-});
+$appInjectable.load();
 </script>

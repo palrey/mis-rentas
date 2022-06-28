@@ -1,10 +1,12 @@
 import AdminLayoutVue from 'src/layouts/admin/AdminLayout.vue';
 import { RouteRecordRaw } from 'vue-router';
+import { authGuard } from '../guards';
 import { ROUTE_NAME } from './name';
 
 export const bookingRoutes: RouteRecordRaw = {
   path: '/',
   component: AdminLayoutVue,
+  beforeEnter: authGuard,
   children: [
     {
       path: '',

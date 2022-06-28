@@ -1,5 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance, AxiosRequestHeaders } from 'axios';
+import { $appInjectable } from 'src/injectables';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -28,16 +29,16 @@ export default boot(({ app }) => {
     }
 
     /* Check if authorization is set */
-    // if (!(_request.headers as AxiosRequestHeaders)['Authorization']) {
-    //   const token = $user.apiToken;
-    //   if (token && token.length > 0) {
-    //     (_request.headers as AxiosRequestHeaders).Authorization =
-    //       'Bearer ' + token;
-    //   } else {
-    //     (_request.headers as AxiosRequestHeaders).Authorization =
-    //       'Bearer ApiToken';
-    //   }
-    // }
+    if (!(_request.headers as AxiosRequestHeaders)['Authorization']) {
+      const token = $appInjectable.api_token;
+      if (token && token.length > 0) {
+        (_request.headers as AxiosRequestHeaders).Authorization =
+          'Bearer ' + token;
+      } else {
+        (_request.headers as AxiosRequestHeaders).Authorization =
+          'Bearer ApiToken';
+      }
+    }
 
     return _request;
   });
