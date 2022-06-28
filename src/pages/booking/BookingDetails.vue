@@ -16,6 +16,11 @@ import BookingReport from 'src/components/widgets/BookingReportWidget.vue';
 import { IBooking } from 'src/types';
 import { handleAxiosError } from 'src/helpers';
 import { $api } from 'src/boot/axios';
+import { useMeta } from 'quasar';
+
+useMeta({
+  title: 'PalRey | Reserva',
+});
 
 /**
  * -----------------------------------------
