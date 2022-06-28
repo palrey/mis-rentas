@@ -2,10 +2,10 @@
   <router-view class="text-grey-9" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
+import { useMeta } from 'quasar';
 
-export default defineComponent({
-  name: 'App',
+useMeta({
+  title: 'PalRey Admin',
 });
 </script>
