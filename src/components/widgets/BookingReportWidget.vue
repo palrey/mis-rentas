@@ -1,10 +1,10 @@
 <template>
   <q-card class="no-box-shadow" style="max-width: 40rem; min-width: 20rem">
-    <q-card-section class="text-center">
+    <q-card-section class="text-center q-gutter-y-md">
       <q-img
-        src="img/logo.png"
+        src="/img/logo_x350.png"
         alt="Rentas Palrey logo"
-        style="max-width: 8rem"
+        style="max-width: 12rem"
         spinner-color="primary"
         spinner-size="82px"
       />

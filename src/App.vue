@@ -6,6 +6,6 @@
 import { useMeta } from 'quasar';
 
 useMeta({
-  title: 'PalRey Admin',
+  title: 'PalRey | Mis Rentas',
 });
 </script>
