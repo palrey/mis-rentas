@@ -43,12 +43,14 @@ import { $router } from 'src/boot/router';
 import { ROUTE_NAME } from 'src/router';
 import { $notificationHelper, handleAxiosError } from 'src/helpers';
 import { $api } from 'src/boot/axios';
+import { Plugins } from '@capacitor/core';
 
 /**
  * -----------------------------------------
  *	Inject
  * -----------------------------------------
  */
+const { Clipboard } = Plugins;
 const $emit = defineEmits<{
   (e: 'removed', id: number): void;
   (e: 'edit', id: number): void;
@@ -87,16 +89,36 @@ const totalPrice = computed(() => {
  * Copy Url
  */
 async function copyUrl() {
-  await copyToClipboard(
-    `${window.location.origin}/booking-details?code=${$props.booking.report_code}`
-  );
-  $q.notify({
-    message: 'Enlace copiado',
-    color: 'positive',
-    icon: 'mdi-link-variant',
-    timeout: 2000,
-    position: 'center',
-  });
+  const url = `${window.location.origin}/booking-details?code=${$props.booking.report_code}`;
+  try {
+    if ($q.platform.is.capacitor) {
+      await Clipboard.write({ url });
+      $q.notify({
+        message: 'Enlace copiado',
+        color: 'positive',
+        icon: 'mdi-link-variant',
+        timeout: 2000,
+        position: 'center',
+      });
+    } else {
+      await copyToClipboard(url);
+      $q.notify({
+        message: 'Enlace copiado',
+        color: 'positive',
+        icon: 'mdi-link-variant',
+        timeout: 2000,
+        position: 'center',
+      });
+    }
+  } catch (error) {
+    $q.notify({
+      message: 'Plataforma no soportada',
+      color: 'negative',
+      icon: 'mdi-alert',
+      timeout: 2000,
+      position: 'center',
+    });
+  }
 }
 /**
  * edit
