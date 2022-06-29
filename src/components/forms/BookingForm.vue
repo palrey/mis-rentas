@@ -108,7 +108,7 @@
           <div class="col-xs-12 col-sm-6">
             <q-select
               v-model="form.currency"
-              :options="['MX', 'CUP', 'USD', 'EUR']"
+              :options="['MXN', 'CUP', 'USD', 'EUR']"
               label="Moneda"
             />
           </div>
