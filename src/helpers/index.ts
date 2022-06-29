@@ -4,6 +4,7 @@ import { LocationQueryRaw, RouteParamsRaw } from 'vue-router';
 import { Platform } from 'quasar';
 import { $appInjectable } from 'src/injectables';
 import { AxiosError } from 'axios';
+import { $notificationHelper } from './notification';
 /**
  * Go To
  * @param name s
@@ -23,7 +24,7 @@ export function goTo(
 }
 /**
  * Handle Axios Error
- * @param error
+ * @param _error
  */
 export function handleAxiosError(_error: unknown) {
   const error = _error as AxiosError;
@@ -36,6 +37,7 @@ export function handleAxiosError(_error: unknown) {
       return $router.push({ name: ROUTE_NAME.AUTH_LOGIN });
     }
   }
+  $notificationHelper.error('Se ha producido un error');
 }
 /**
  * isAuth

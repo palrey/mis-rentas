@@ -29,16 +29,6 @@
             />
           </div>
           <!-- / Last Name -->
-          <!-- Address -->
-          <div class="col-xs-12">
-            <q-input
-              v-model="form.address"
-              required
-              type="text"
-              label="Dirección"
-            />
-          </div>
-          <!-- / Address -->
 
           <div class="col-xs-12 text-center">
             <div class="text-h6">Contacto</div>
@@ -60,15 +50,46 @@
           <!-- / Phone -->
 
           <div class="col-xs-12 text-center">
+            <div class="text-h6">Dirección</div>
+          </div>
+
+          <!-- Address country -->
+          <div class="col-xs-12 col-sm-6">
+            <q-input v-model="addressDetails.country" type="text" label="País" />
+          </div>
+          <!-- / Address country -->
+          <!-- Address State -->
+          <div class="col-xs-12 col-sm-6">
+            <q-input v-model="addressDetails.state" type="text" label="Estado / Provincia" />
+          </div>
+          <!-- / Address State -->
+          <!-- Address City -->
+          <div class="col-xs-12 col-sm-6">
+            <q-input v-model="addressDetails.city" type="text" label="Ciudad / Municipio" />
+          </div>
+          <!-- / Address City -->
+          <!-- Address CP -->
+          <div class="col-xs-12 col-sm-6">
+            <q-input v-model="addressDetails.postal_code" required type="text" label="Codigo Postal" />
+          </div>
+          <!-- / Address CP -->
+
+          <!-- Address -->
+          <div class="col-xs-12">
+            <q-input v-model="addressDetails.address" required type="text" label="Direccion" />
+          </div>
+          <!-- / Address -->
+
+          <div class="col-xs-12 text-center">
             <div class="text-h6">Información de Viaje</div>
           </div>
           <!-- Airline Name -->
           <div class="col-xs-12 col-sm-6">
-            <q-input
+            <q-select
               v-model="form.airline_name"
-              type="text"
               required
               label="Aereolínea"
+              :options="['Vivaerobus','MagniCharter','Aeromar','Volaris','Delta','Copa']"
             />
           </div>
           <!-- Airline Fly -->
@@ -195,6 +216,19 @@ const form = ref<IBooking>({
   comments: '',
   currency: 'USD',
 });
+const addressDetails = ref<{
+  country: string|null;
+  state: string|null;
+  city: string|null;
+  postal_code: string | null;
+  address: string ;
+}>({
+  country: null,
+  state: null,
+  city: null,
+  postal_code: null,
+  address: ''
+});
 /**
  * -----------------------------------------
  *	Methods
@@ -204,8 +238,8 @@ const form = ref<IBooking>({
  * On submit
  */
 async function onSubmit() {
+  form.value.address = `${addressDetails.value.address}${addressDetails.value.city ? ', ' + addressDetails.value.city : ''}${addressDetails.value.country ? ', ' + addressDetails.value.country : ''}${addressDetails.value.postal_code ? ', ' + addressDetails.value.postal_code : ''}`;
   try {
-    $notificationHelper.loading();
     if ($props.booking && $props.booking.id) {
       $emit(
         'updated',

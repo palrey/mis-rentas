@@ -11,7 +11,8 @@
     "test": "echo \"No test specified\" && exit 0",
     "icons": "icongenie g -i ./public/img/logo.png --skip-trim",
     "build": "quasar build",
-    "build:pwa": "quasar build --mode pwa"
+    "build:pwa": "quasar build --mode pwa",
+    "dev": "quasar dev"
   },
   "dependencies": {
     "@capacitor/core": "^2.0.0",
