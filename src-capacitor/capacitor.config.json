@@ -1,0 +1,7 @@
+{
+  "appId": "com.palrey.rentas.app",
+  "appName": "Palrey Rent GUI",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www"
+}
