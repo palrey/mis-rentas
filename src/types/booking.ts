@@ -14,7 +14,22 @@ export interface IBooking {
   currency: 'MXN' | 'CUP' | 'USD' | 'EUR';
   airline_name: string;
   airline_fly: string;
-  room_type: 'Sencilla' | 'Doble' | 'Triple' | 'Cuadruple';
+  room_id: number;
+  room?: IRoom;
+  room_type: IRoomType;
   comments?: string;
   report_code?: string;
+}
+
+export type IRoomType = 'Sencilla' | 'Doble' | 'Triple' | 'Cuadruple';
+/**
+ * @interface IRoom
+ */
+export interface IRoom {
+  id: number;
+  title: string;
+  type: IRoomType;
+  capacity: number;
+  open: boolean;
+  address: string;
 }

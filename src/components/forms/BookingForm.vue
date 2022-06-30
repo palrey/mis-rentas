@@ -4,7 +4,29 @@
       <q-card-section>
         <div class="text-h6 text-center">Nueva Reserva</div>
       </q-card-section>
-      <q-card-section class="q-gutter-y-sm">
+      <q-card-section>
+        <!-- Date -->
+        <div :class="`col-xs-12 text-center`">
+          <div class="text-body1">Fecha</div>
+          <q-date
+            v-model="form.date"
+            range
+            required
+            @range-end="onDateRangeEnd"
+            v-if="!availableRooms.length"
+          />
+          <q-chip
+            v-else
+            clickable
+            class="glossy"
+            icon="mdi-calendar"
+            :label="`${form.date.from} - ${form.date.to}`"
+            @click="resetCalendar"
+          />
+        </div>
+        <!-- / Date -->
+      </q-card-section>
+      <q-card-section class="q-gutter-y-sm" v-if="availableRooms.length">
         <div class="row q-col-gutter-md">
           <div class="col-xs-12 text-center">
             <div class="text-h6">Información Personal</div>
@@ -55,28 +77,50 @@
 
           <!-- Address country -->
           <div class="col-xs-12 col-sm-6">
-            <q-input v-model="addressDetails.country" type="text" label="País" />
+            <q-input
+              v-model="addressDetails.country"
+              type="text"
+              label="País"
+            />
           </div>
           <!-- / Address country -->
           <!-- Address State -->
           <div class="col-xs-12 col-sm-6">
-            <q-input v-model="addressDetails.state" type="text" label="Estado / Provincia" />
+            <q-input
+              v-model="addressDetails.state"
+              type="text"
+              label="Estado / Provincia"
+            />
           </div>
           <!-- / Address State -->
           <!-- Address City -->
           <div class="col-xs-12 col-sm-6">
-            <q-input v-model="addressDetails.city" type="text" label="Ciudad / Municipio" />
+            <q-input
+              v-model="addressDetails.city"
+              type="text"
+              label="Ciudad / Municipio"
+            />
           </div>
           <!-- / Address City -->
           <!-- Address CP -->
           <div class="col-xs-12 col-sm-6">
-            <q-input v-model="addressDetails.postal_code" required type="text" label="Codigo Postal" />
+            <q-input
+              v-model="addressDetails.postal_code"
+              required
+              type="text"
+              label="Codigo Postal"
+            />
           </div>
           <!-- / Address CP -->
 
           <!-- Address -->
           <div class="col-xs-12">
-            <q-input v-model="addressDetails.address" required type="text" label="Direccion" />
+            <q-input
+              v-model="addressDetails.address"
+              required
+              type="text"
+              label="Direccion"
+            />
           </div>
           <!-- / Address -->
 
@@ -89,7 +133,14 @@
               v-model="form.airline_name"
               required
               label="Aereolínea"
-              :options="['Vivaerobus','MagniCharter','Aeromar','Volaris','Delta','Copa']"
+              :options="[
+                'Vivaerobus',
+                'MagniCharter',
+                'Aeromar',
+                'Volaris',
+                'Delta',
+                'Copa',
+              ]"
             />
           </div>
           <!-- Airline Fly -->
@@ -120,8 +171,12 @@
           <div class="col-xs-12">
             <q-select
               required
-              v-model="form.room_type"
-              :options="['Sencilla', 'Doble', 'Triple', 'Cuadruple']"
+              v-model="form.room_id"
+              emit-value
+              map-options
+              option-label="title"
+              option-value="id"
+              :options="availableRooms"
               label="Habitación"
             />
           </div>
@@ -146,13 +201,6 @@
             />
           </div>
           <!-- / Price -->
-
-          <!-- Date -->
-          <div :class="`col-xs-12 text-center`">
-            <div class="text-body1">Fecha</div>
-            <q-date v-model="form.date" range required />
-          </div>
-          <!-- / Date -->
 
           <!-- Comments -->
           <div class="col-xs-12">
@@ -182,7 +230,7 @@
 
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue';
-import { IBooking } from 'src/types';
+import { IBooking, IRoom } from 'src/types';
 import { $notificationHelper, handleAxiosError } from 'src/helpers';
 import { $api } from 'src/boot/axios';
 
@@ -197,6 +245,23 @@ const $props = defineProps<{ booking?: IBooking }>();
  *	Data
  * -----------------------------------------
  */
+
+const addressDetails = ref<{
+  country: string | null;
+  state: string | null;
+  city: string | null;
+  postal_code: string | null;
+  address: string;
+}>({
+  country: null,
+  state: null,
+  city: null,
+  postal_code: null,
+  address: '',
+});
+
+const availableRooms = ref<IRoom[]>([]);
+
 const form = ref<IBooking>({
   id: 0,
   airline_fly: '',
@@ -206,6 +271,7 @@ const form = ref<IBooking>({
   email: '',
   phone: '',
   room_type: 'Sencilla',
+  room_id: 0,
   address: '',
   passport: '',
   price: 0,
@@ -216,29 +282,44 @@ const form = ref<IBooking>({
   comments: '',
   currency: 'USD',
 });
-const addressDetails = ref<{
-  country: string|null;
-  state: string|null;
-  city: string|null;
-  postal_code: string | null;
-  address: string ;
-}>({
-  country: null,
-  state: null,
-  city: null,
-  postal_code: null,
-  address: ''
-});
 /**
  * -----------------------------------------
  *	Methods
  * -----------------------------------------
  */
 /**
+ * Get Available Rooms
+ */
+async function getAvailableRooms() {
+  try {
+    const resp = await $api.post<IRoom[]>('api/rooms/available', {
+      date: form.value.date,
+    });
+    availableRooms.value = resp.data;
+    if (!availableRooms.value.length) {
+      $notificationHelper.error('No hay habitaciones disponibles');
+    }
+  } catch (error) {
+    handleAxiosError(error);
+  }
+}
+/**
+ * On Date Range End
+ */
+function onDateRangeEnd() {
+  getAvailableRooms();
+}
+/**
  * On submit
  */
 async function onSubmit() {
-  form.value.address = `${addressDetails.value.address}${addressDetails.value.city ? ', ' + addressDetails.value.city : ''}${addressDetails.value.country ? ', ' + addressDetails.value.country : ''}${addressDetails.value.postal_code ? ', ' + addressDetails.value.postal_code : ''}`;
+  form.value.address = `${addressDetails.value.address}${
+    addressDetails.value.city ? ', ' + addressDetails.value.city : ''
+  }${addressDetails.value.country ? ', ' + addressDetails.value.country : ''}${
+    addressDetails.value.postal_code
+      ? ', ' + addressDetails.value.postal_code
+      : ''
+  }`;
   try {
     if ($props.booking && $props.booking.id) {
       $emit(
@@ -258,6 +339,16 @@ async function onSubmit() {
     handleAxiosError(error);
   }
   $notificationHelper.loading(false);
+}
+/**
+ * Reset Calendar
+ */
+function resetCalendar() {
+  availableRooms.value = [];
+  form.value.date = {
+    from: '',
+    to: '',
+  };
 }
 
 onBeforeMount(() => {

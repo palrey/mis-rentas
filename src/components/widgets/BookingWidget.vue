@@ -2,24 +2,56 @@
   <q-card>
     <q-card-section>
       <div class="row q-col-gutter-sm">
-        <div class="col-xs-6">
-          <div class="text-subtitle2">
+        <div class="col-xs-6 text-subtitle2">
+          <div>
             <q-icon name="mdi-account" class="q-mr-xs" />{{
               `${$props.booking.first_name} ${$props.booking.last_name}`
             }}
           </div>
-          <q-icon name="mdi-phone" class="q-mr-xs" />{{ $props.booking.phone }}
-        </div>
-
-        <div class="col-xs-6">
-          <div class="text-caption">
-            <q-icon name="mdi-calendar" class="q-mr-xs" />{{ diffDays }} días
+          <div>
+            <q-icon name="mdi-phone" class="q-mr-xs" />{{
+              $props.booking.phone
+            }}
           </div>
-          <div class="text-caption">
+          <div>
+            <q-icon
+              v-if="$props.booking.email"
+              name="mdi-email-outline"
+              class="q-mr-xs"
+            />{{ $props.booking.email }}
+          </div>
+
+          <div>
             <q-icon name="mdi-cash" />
             {{ Number(totalPrice).toFixed(2) }}
             {{ $props.booking.currency }}
           </div>
+        </div>
+
+        <div class="col-xs-6">
+          <q-chip
+            class="glossy"
+            icon="mdi-calendar"
+            :label="`Desde ${new Date(
+              $props.booking.date.from
+            ).toLocaleDateString()}`"
+            dense
+          />
+          <q-chip
+            class="glossy"
+            icon="mdi-calendar"
+            :label="`Hasta ${new Date(
+              $props.booking.date.to
+            ).toLocaleDateString()}`"
+            dense
+          />
+          <q-chip
+            dense
+            v-if="$props.booking.room"
+            class="glossy"
+            icon="mdi-home"
+            :label="$props.booking.room.title"
+          />
         </div>
         <div class="col-xs-12 text-justify" v-if="$props.booking.comments">
           <div class="text-caption">{{ $props.booking.comments }}</div>
