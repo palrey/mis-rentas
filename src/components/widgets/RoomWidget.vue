@@ -4,6 +4,7 @@
       <div class="text-body1">
         {{ $props.room.title }} ({{ $props.room.type }})
       </div>
+      <div class="text-subtitle">{{ $props.room.address }})</div>
     </q-card-section>
 
     <q-card-actions align="right">
