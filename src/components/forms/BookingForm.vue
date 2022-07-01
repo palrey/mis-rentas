@@ -20,7 +20,11 @@
             clickable
             class="glossy"
             icon="mdi-calendar"
-            :label="`${form.date.from} - ${form.date.to}`"
+            :label="`${new Date(
+              form.date.from
+            ).toLocaleDateString()} - ${new Date(
+              form.date.to
+            ).toLocaleDateString()}`"
             @click="resetCalendar"
           />
         </div>
@@ -106,7 +110,6 @@
           <div class="col-xs-12 col-sm-6">
             <q-input
               v-model="addressDetails.postal_code"
-              required
               type="text"
               label="Codigo Postal"
             />
@@ -315,7 +318,9 @@ function onDateRangeEnd() {
 async function onSubmit() {
   form.value.address = `${addressDetails.value.address}${
     addressDetails.value.city ? ', ' + addressDetails.value.city : ''
-  }${addressDetails.value.country ? ', ' + addressDetails.value.country : ''}${
+  }${addressDetails.value.state ? ', ' + addressDetails.value.state : ''}${
+    addressDetails.value.country ? ', ' + addressDetails.value.country : ''
+  }${
     addressDetails.value.postal_code
       ? ', ' + addressDetails.value.postal_code
       : ''
@@ -351,9 +356,21 @@ function resetCalendar() {
   };
 }
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   if ($props.booking) {
     form.value = $props.booking;
+    const address = form.value.address.split(', ');
+    if (address[0]) addressDetails.value.address = address[0];
+    if (address[1]) addressDetails.value.city = address[1];
+    if (address[2]) addressDetails.value.state = address[2];
+    if (address[3]) addressDetails.value.country = address[3];
+    if (address[4]) addressDetails.value.postal_code = address[4];
+    try {
+      const resp = await $api.get<IRoom[]>('api/rooms');
+      availableRooms.value = resp.data;
+    } catch (error) {
+      handleAxiosError(error);
+    }
   }
 });
 </script>

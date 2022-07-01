@@ -74,10 +74,10 @@
         <!-- Col -->
         <div class="col-xs-12 col-sm-6 q-gutter-y-sm">
           <!-- room_type -->
-          <div>
+          <div v-if="$props.booking.room">
             <div class="text-grey-7">Habitación / Room</div>
             <div class="text-bold">
-              {{ $props.booking.room_type }}
+              {{ $props.booking.room.title }} ({{ $props.booking.room.type }})
             </div>
           </div>
           <!-- / room_type -->

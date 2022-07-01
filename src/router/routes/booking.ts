@@ -18,5 +18,10 @@ export const bookingRoutes: RouteRecordRaw = {
       name: ROUTE_NAME.BOOKING_REPORT,
       component: () => import('src/pages/booking/BookingDetails.vue'),
     },
+    {
+      path: 'rooms',
+      name: ROUTE_NAME.BOOKING_ROOMS,
+      component: () => import('src/pages/booking/RoomsPage.vue'),
+    },
   ],
 };

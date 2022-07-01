@@ -1,6 +1,7 @@
 <template>
   <q-card>
     <q-card-section>
+      <div>No. {{ $props.booking.id }}</div>
       <div class="row q-col-gutter-sm">
         <div class="col-xs-6 text-subtitle2">
           <div>
@@ -13,13 +14,6 @@
               $props.booking.phone
             }}
           </div>
-          <div>
-            <q-icon
-              v-if="$props.booking.email"
-              name="mdi-email-outline"
-              class="q-mr-xs"
-            />{{ $props.booking.email }}
-          </div>
 
           <div>
             <q-icon name="mdi-cash" />
@@ -31,20 +25,18 @@
         <div class="col-xs-6">
           <q-chip
             class="glossy"
-            icon="mdi-calendar"
-            :label="`Desde ${new Date(
-              $props.booking.date.from
-            ).toLocaleDateString()}`"
+            icon="mdi-arrow-right-bold"
+            :label="new Date($props.booking.date.from).toLocaleDateString()"
             dense
           />
           <q-chip
             class="glossy"
-            icon="mdi-calendar"
-            :label="`Hasta ${new Date(
-              $props.booking.date.to
-            ).toLocaleDateString()}`"
+            icon="mdi-arrow-left-bold"
+            :label="new Date($props.booking.date.to).toLocaleDateString()"
             dense
           />
+        </div>
+        <div class="col-xs-12">
           <q-chip
             dense
             v-if="$props.booking.room"

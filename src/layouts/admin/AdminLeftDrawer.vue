@@ -19,6 +19,17 @@
         </q-item-section>
       </q-item>
       <!-- / Bookings -->
+      <!-- Rooms -->
+      <q-item exact clickable :to="{ name: ROUTE_NAME.BOOKING_ROOMS }">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-home" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Habitaciones</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Rooms -->
     </q-list>
   </q-drawer>
 </template>
