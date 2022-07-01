@@ -18,12 +18,7 @@
           type="number"
           label="Capacidad"
         />
-        <q-input
-          v-model="form.address"
-          required
-          type="text"
-          label="Direccion"
-        />
+        <q-input v-model="form.address" required type="text" label="Detalles" />
       </q-card-section>
       <q-card-actions>
         <q-btn
