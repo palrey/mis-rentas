@@ -365,12 +365,14 @@ onBeforeMount(async () => {
     if (address[2]) addressDetails.value.state = address[2];
     if (address[3]) addressDetails.value.country = address[3];
     if (address[4]) addressDetails.value.postal_code = address[4];
+    $notificationHelper.loading(true, 'Buscando habitaciones disponibles');
     try {
       const resp = await $api.get<IRoom[]>('api/rooms');
       availableRooms.value = resp.data;
     } catch (error) {
       handleAxiosError(error);
     }
+    $notificationHelper.loading(false);
   }
 });
 </script>
