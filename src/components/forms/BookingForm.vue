@@ -369,6 +369,8 @@ onBeforeMount(async () => {
     try {
       const resp = await $api.get<IRoom[]>('api/rooms');
       availableRooms.value = resp.data;
+      if (availableRooms.value.length)
+        form.value.room_id = availableRooms.value[0].id;
     } catch (error) {
       handleAxiosError(error);
     }
