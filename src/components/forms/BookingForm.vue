@@ -291,6 +291,21 @@ const form = ref<IBooking>({
  * -----------------------------------------
  */
 /**
+ * Get all Rooms
+ */
+async function getAllRooms() {
+  $notificationHelper.loading(true, 'Buscando habitaciones disponibles');
+  try {
+    const resp = await $api.get<IRoom[]>('api/rooms');
+    availableRooms.value = resp.data;
+    if (availableRooms.value.length)
+      form.value.room_id = availableRooms.value[0].id;
+  } catch (error) {
+    handleAxiosError(error);
+  }
+  $notificationHelper.loading(false);
+}
+/**
  * Get Available Rooms
  */
 async function getAvailableRooms() {
@@ -299,6 +314,8 @@ async function getAvailableRooms() {
       date: form.value.date,
     });
     availableRooms.value = resp.data;
+    if (availableRooms.value.length)
+      form.value.room_id = availableRooms.value[0].id;
     if (!availableRooms.value.length) {
       $notificationHelper.error('No hay habitaciones disponibles');
     }
@@ -310,7 +327,8 @@ async function getAvailableRooms() {
  * On Date Range End
  */
 function onDateRangeEnd() {
-  getAvailableRooms();
+  if ($props.booking) getAllRooms();
+  else getAvailableRooms();
 }
 /**
  * On submit
@@ -365,16 +383,7 @@ onBeforeMount(async () => {
     if (address[2]) addressDetails.value.state = address[2];
     if (address[3]) addressDetails.value.country = address[3];
     if (address[4]) addressDetails.value.postal_code = address[4];
-    $notificationHelper.loading(true, 'Buscando habitaciones disponibles');
-    try {
-      const resp = await $api.get<IRoom[]>('api/rooms');
-      availableRooms.value = resp.data;
-      if (availableRooms.value.length)
-        form.value.room_id = availableRooms.value[0].id;
-    } catch (error) {
-      handleAxiosError(error);
-    }
-    $notificationHelper.loading(false);
+    await getAllRooms();
   }
 });
 </script>
