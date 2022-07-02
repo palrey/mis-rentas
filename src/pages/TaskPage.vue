@@ -3,7 +3,7 @@
     <section>
       <q-card class="no-box-shadow">
         <q-card-section>
-          <q-btn
+          <!-- <q-btn
             dense
             outline
             color="primary"
@@ -11,7 +11,8 @@
             label="Ver Todas"
             class="full-width"
             @click="getAllTasks"
-          /><q-btn
+          /> -->
+          <q-btn
             dense
             color="primary"
             icon="mdi-plus"
