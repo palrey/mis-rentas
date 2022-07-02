@@ -8,7 +8,7 @@
         spinner-color="primary"
         spinner-size="82px"
       />
-      <div class="text-h6">Comprobante de Reserva</div>
+      <div class="text-h6">Reserva No. {{ $props.booking.id }}</div>
     </q-card-section>
 
     <q-card-section class="text-justify text-subtitle2">
@@ -142,7 +142,8 @@
       </div>
     </q-card-section>
     <q-card-section class="text-center text-caption q-gutter-y-none">
-      <div>RENTAS PALREY {{ year }}</div>
+      <div>PALREY AGRADECE SU PREFERENCIA</div>
+      <div>{{ year }}</div>
     </q-card-section>
   </q-card>
 </template>
