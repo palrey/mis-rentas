@@ -10,6 +10,11 @@
 
     <q-tabs align="left" v-if="!isMobile">
       <q-route-tab :to="{ name: ROUTE_NAME.BOOKING_HOME }" label="Reservas" />
+      <q-route-tab
+        :to="{ name: ROUTE_NAME.BOOKING_ROOMS }"
+        label="Habitaciones"
+      />
+      <q-route-tab :to="{ name: ROUTE_NAME.TASKS_HOME }" label="Tareas" />
     </q-tabs>
   </q-header>
 </template>

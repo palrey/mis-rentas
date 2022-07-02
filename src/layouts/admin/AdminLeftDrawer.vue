@@ -29,7 +29,21 @@
           <q-item-label lines="1">Habitaciones</q-item-label>
         </q-item-section>
       </q-item>
-      <!-- / Rooms -->
+      <!-- Tasks -->
+      <q-item exact clickable :to="{ name: ROUTE_NAME.TASKS_HOME }">
+        <q-item-section avatar top>
+          <q-avatar
+            size="md"
+            icon="mdi-format-list-checks"
+            text-color="primary"
+          />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Tareas</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Tasks -->
     </q-list>
   </q-drawer>
 </template>
