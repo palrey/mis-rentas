@@ -142,7 +142,7 @@
       </div>
     </q-card-section>
     <q-card-section class="text-center text-caption q-gutter-y-none">
-      <div>PALREY AGRADECE SU PREFERENCIA</div>
+      <div>GRUPO PALREY AGRADECE SU PREFERENCIA</div>
       <div>{{ year }}</div>
     </q-card-section>
   </q-card>

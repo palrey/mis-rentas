@@ -106,26 +106,6 @@
             />
           </div>
           <!-- / Address City -->
-          <!-- Address CP -->
-          <div class="col-xs-12 col-sm-6">
-            <q-input
-              v-model="addressDetails.postal_code"
-              type="text"
-              label="Codigo Postal"
-            />
-          </div>
-          <!-- / Address CP -->
-
-          <!-- Address -->
-          <div class="col-xs-12">
-            <q-input
-              v-model="addressDetails.address"
-              required
-              type="text"
-              label="Direccion"
-            />
-          </div>
-          <!-- / Address -->
 
           <div class="col-xs-12 text-center">
             <div class="text-h6">Información de Viaje</div>
@@ -253,14 +233,14 @@ const addressDetails = ref<{
   country: string | null;
   state: string | null;
   city: string | null;
-  postal_code: string | null;
-  address: string;
+  // postal_code: string | null;
+  // address: string;
 }>({
   country: null,
   state: null,
   city: null,
-  postal_code: null,
-  address: '',
+  // postal_code: null,
+  // address: '',
 });
 
 const availableRooms = ref<IRoom[]>([]);
@@ -334,14 +314,10 @@ function onDateRangeEnd() {
  * On submit
  */
 async function onSubmit() {
-  form.value.address = `${addressDetails.value.address}${
-    addressDetails.value.city ? ', ' + addressDetails.value.city : ''
+  form.value.address = `${
+    addressDetails.value.city ? addressDetails.value.city : ''
   }${addressDetails.value.state ? ', ' + addressDetails.value.state : ''}${
     addressDetails.value.country ? ', ' + addressDetails.value.country : ''
-  }${
-    addressDetails.value.postal_code
-      ? ', ' + addressDetails.value.postal_code
-      : ''
   }`;
   try {
     if ($props.booking && $props.booking.id) {
@@ -378,11 +354,9 @@ onBeforeMount(async () => {
   if ($props.booking) {
     form.value = $props.booking;
     const address = form.value.address.split(', ');
-    if (address[0]) addressDetails.value.address = address[0];
-    if (address[1]) addressDetails.value.city = address[1];
-    if (address[2]) addressDetails.value.state = address[2];
-    if (address[3]) addressDetails.value.country = address[3];
-    if (address[4]) addressDetails.value.postal_code = address[4];
+    if (address[0]) addressDetails.value.city = address[0];
+    if (address[1]) addressDetails.value.state = address[1];
+    if (address[2]) addressDetails.value.country = address[2];
     await getAllRooms();
   }
 });
