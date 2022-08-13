@@ -18,7 +18,13 @@
           type="number"
           label="Capacidad"
         />
-        <q-input v-model="form.address" required type="text" label="Detalles" />
+        <q-input
+          v-model="form.address"
+          required
+          type="text"
+          label="Direccion"
+        />
+        <q-input v-model="form.link" type="text" label="Enlace GPS" />
       </q-card-section>
       <q-card-actions>
         <q-btn
@@ -73,6 +79,7 @@ const form = ref<IRoom>({
   capacity: 0,
   open: true,
   title: '',
+  link: '',
   type: 'Sencilla',
   id: 0,
 });

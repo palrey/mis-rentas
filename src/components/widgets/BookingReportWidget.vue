@@ -131,7 +131,17 @@
 
         <div class="col-xs-12 q-mt-lg text-center text-caption q-gutter-y-none">
           <div>
-            Dirección: Supermanzana 4, Manzana 6, Lote 6, Calle Fuego #28
+            {{ $props.booking.room?.address }}
+            <!-- Dirección: Supermanzana 4, Manzana 6, Lote 6, Calle Fuego #28 -->
+          </div>
+          <div v-if="$props.booking.room?.link">
+            <q-chip
+              class="glossy"
+              clickable
+              icon="mdi-map-marker"
+              @click="showMap"
+              label="Mostrar en Mapa"
+            />
           </div>
           <div>Código Postal: 77500</div>
           <div>Contacto: 9-981-291-807</div>
@@ -149,7 +159,7 @@
 </template>
 
 <script setup lang="ts">
-import { date } from 'quasar';
+import { date, openURL } from 'quasar';
 import { IBooking } from 'src/types';
 import { computed } from 'vue';
 import QrcodeVue from 'qrcode.vue';
@@ -197,4 +207,9 @@ const year = computed(() => new Date().getFullYear());
  *	Methods
  * -----------------------------------------
  */
+
+function showMap() {
+  if ($props.booking.room && $props.booking.room.link)
+    openURL($props.booking.room.link);
+}
 </script>
