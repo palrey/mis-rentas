@@ -12,7 +12,7 @@
     </q-card-section>
 
     <q-card-section class="text-justify text-subtitle2">
-      <div class="row q-col-gutter-md">
+      <div class="row q-col-gutter-md text-uppercase">
         <!-- Col-1 -->
         <div class="col-xs-12 col-sm-6 q-gutter-y-sm">
           <!-- First Name -->

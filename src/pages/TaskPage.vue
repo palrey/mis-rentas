@@ -21,7 +21,7 @@
             @click="dialogForm = true"
           />
         </q-card-section>
-        <q-card-section>
+        <q-card-section class="text-uppercase">
           <q-timeline color="primary" layout="dense">
             <q-timeline-entry
               @click="onEdit(task.id)"

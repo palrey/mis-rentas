@@ -6,8 +6,8 @@
       </q-card-section>
       <q-card-section>
         <!-- Date -->
-        <div :class="`col-xs-12 text-center`">
-          <div class="text-body1">Fecha</div>
+        <div class="col-xs-12 text-center">
+          <div class="text-body1">FECHA</div>
           <q-date
             v-model="form.date"
             range
@@ -33,39 +33,37 @@
       <q-card-section class="q-gutter-y-sm" v-if="availableRooms.length">
         <div class="row q-col-gutter-md">
           <div class="col-xs-12 text-center">
-            <div class="text-h6">Información Personal</div>
+            <div class="text-h6">INFORMACION PERSONAL</div>
           </div>
           <!-- First Name -->
           <div class="col-xs-12 col-sm-6">
             <q-input
+              class="text-capitalize"
               v-model="form.first_name"
               required
               type="text"
-              label="Nombre"
-              mask="A"
-              reverse-fill-mask
+              label="NOMBRE"
             />
           </div>
           <!-- / First Name -->
           <!-- Last Name -->
           <div class="col-xs-12 col-sm-6">
             <q-input
+              class="text-capitalize"
               v-model="form.last_name"
               required
               type="text"
-              label="Apellidos"
-              mask="A"
-              reverse-fill-mask
+              label="APELLIDOS"
             />
           </div>
           <!-- / Last Name -->
 
           <div class="col-xs-12 text-center">
-            <div class="text-h6">Contacto</div>
+            <div class="text-h6">CONTACTO</div>
           </div>
           <!-- Email -->
           <div class="col-xs-12 col-sm-6">
-            <q-input v-model="form.email" type="email" label="Email" />
+            <q-input v-model="form.email" type="email" label="EMAIL" />
           </div>
           <!-- / Email -->
           <!-- Phone -->
@@ -74,58 +72,55 @@
               v-model="form.phone"
               required
               type="tel"
-              label="Teléfono"
+              label="TELEFONO"
             />
           </div>
           <!-- / Phone -->
 
           <div class="col-xs-12 text-center">
-            <div class="text-h6">Dirección</div>
+            <div class="text-h6">DIRECCION</div>
           </div>
 
           <!-- Address country -->
           <div class="col-xs-12 col-sm-6">
             <q-input
+              class="text-uppercase"
               v-model="addressDetails.country"
               type="text"
               label="País"
-              mask="X"
-              reverse-fill-mask
             />
           </div>
           <!-- / Address country -->
           <!-- Address State -->
           <div class="col-xs-12 col-sm-6">
             <q-input
+              class="text-uppercase"
               v-model="addressDetails.state"
               type="text"
               label="Estado / Provincia"
-              mask="X"
-              reverse-fill-mask
             />
           </div>
           <!-- / Address State -->
           <!-- Address City -->
           <div class="col-xs-12 col-sm-6">
             <q-input
+              class="text-uppercase"
               v-model="addressDetails.city"
               type="text"
               label="Ciudad / Municipio"
-              mask="X"
-              reverse-fill-mask
             />
           </div>
           <!-- / Address City -->
 
           <div class="col-xs-12 text-center">
-            <div class="text-h6">Información de Viaje</div>
+            <div class="text-h6">INFORMACION DE VIAJE</div>
           </div>
           <!-- Airline Name -->
           <div class="col-xs-12 col-sm-6">
             <q-select
               v-model="form.airline_name"
               required
-              label="Aereolínea"
+              label="AEROLINEA"
               :options="[
                 'Vivaerobus',
                 'MagniCharter',
@@ -139,30 +134,28 @@
           <!-- Airline Fly -->
           <div class="col-xs-12 col-sm-6">
             <q-input
+              class="text-uppercase"
               v-model="form.airline_fly"
               type="text"
               required
               label="Número de Vuelo"
-              mask="X"
-              reverse-fill-mask
             />
           </div>
           <!-- / Airline Fly -->
           <!-- Passport -->
           <div class="col-xs-12 col-sm-6">
             <q-input
+              class="text-uppercase"
               v-model="form.passport"
               required
               type="text"
               label="Pasaporte"
-              mask="X"
-              reverse-fill-mask
             />
           </div>
           <!-- / Passport -->
 
           <div class="col-xs-12 text-center">
-            <div class="text-h6">Información de Reserva</div>
+            <div class="text-h6">INFORMACION DE RESERVA</div>
           </div>
           <!-- Room Type -->
           <div class="col-xs-12">
@@ -174,7 +167,7 @@
               option-label="title"
               option-value="id"
               :options="availableRooms"
-              label="Habitación"
+              label="HABITACION"
             />
           </div>
           <!-- Currency -->
@@ -182,7 +175,7 @@
             <q-select
               v-model="form.currency"
               :options="['MXN', 'CUP', 'USD', 'EUR']"
-              label="Moneda"
+              label="MONEDA"
             />
           </div>
           <!-- / Currency -->
@@ -192,7 +185,7 @@
               v-model="form.price"
               type="number"
               step="0.01"
-              label="Precio"
+              label="PRECIO"
               prefix="$"
               required
             />
@@ -202,11 +195,9 @@
           <!-- Comments -->
           <div class="col-xs-12">
             <q-input
-              mask="X"
-              reverse-fill-mask
               v-model="form.comments"
               type="textarea"
-              label="Observaciones"
+              label="OBSERVACIONES"
             />
           </div>
           <!-- / Comments -->

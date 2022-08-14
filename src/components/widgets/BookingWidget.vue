@@ -1,10 +1,10 @@
 <template>
-  <q-card>
+  <q-card class="text-uppercase">
     <q-card-section>
       <div>No. {{ $props.booking.id }}</div>
       <div class="row q-col-gutter-sm">
         <div class="col-xs-6 text-subtitle2">
-          <div>
+          <div class="text-capitalize">
             <q-icon name="mdi-account" class="q-mr-xs" />{{
               `${$props.booking.first_name} ${$props.booking.last_name}`
             }}
