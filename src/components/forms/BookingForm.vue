@@ -42,6 +42,8 @@
               required
               type="text"
               label="Nombre"
+              mask="A"
+              reverse-fill-mask
             />
           </div>
           <!-- / First Name -->
@@ -52,6 +54,8 @@
               required
               type="text"
               label="Apellidos"
+              mask="A"
+              reverse-fill-mask
             />
           </div>
           <!-- / Last Name -->
@@ -85,6 +89,8 @@
               v-model="addressDetails.country"
               type="text"
               label="País"
+              mask="X"
+              reverse-fill-mask
             />
           </div>
           <!-- / Address country -->
@@ -94,6 +100,8 @@
               v-model="addressDetails.state"
               type="text"
               label="Estado / Provincia"
+              mask="X"
+              reverse-fill-mask
             />
           </div>
           <!-- / Address State -->
@@ -103,6 +111,8 @@
               v-model="addressDetails.city"
               type="text"
               label="Ciudad / Municipio"
+              mask="X"
+              reverse-fill-mask
             />
           </div>
           <!-- / Address City -->
@@ -133,6 +143,8 @@
               type="text"
               required
               label="Número de Vuelo"
+              mask="X"
+              reverse-fill-mask
             />
           </div>
           <!-- / Airline Fly -->
@@ -143,6 +155,8 @@
               required
               type="text"
               label="Pasaporte"
+              mask="X"
+              reverse-fill-mask
             />
           </div>
           <!-- / Passport -->
@@ -188,6 +202,8 @@
           <!-- Comments -->
           <div class="col-xs-12">
             <q-input
+              mask="X"
+              reverse-fill-mask
               v-model="form.comments"
               type="textarea"
               label="Observaciones"

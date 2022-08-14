@@ -21,6 +21,8 @@
         <q-input
           v-model="form.address"
           required
+          mask="X"
+          reverse-fill-mask
           type="text"
           label="Direccion"
         />
