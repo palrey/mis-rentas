@@ -52,4 +52,5 @@ export interface IRoom {
   capacity: number;
   open: boolean;
   address: string;
+  link?: string;
 }

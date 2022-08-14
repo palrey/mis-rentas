@@ -5,6 +5,6 @@
   "npmClient": "yarn",
   "webDir": "www",
   "server": {
-    "url": "http://192.168.1.66:9500"
+    "url": "https://mis-rentas.palrey.com"
   }
 }
