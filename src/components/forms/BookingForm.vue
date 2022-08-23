@@ -28,10 +28,23 @@
             @click="resetCalendar"
           />
         </div>
-        <!-- / Date -->
       </q-card-section>
       <q-card-section class="q-gutter-y-sm" v-if="availableRooms.length">
         <div class="row q-col-gutter-md">
+          <!-- Rooms -->
+          <div class="col-xs-12 text-center">
+            <div class="text-body1">HABITACIONES</div>
+
+            <q-chip
+              clickable
+              class="glossy"
+              icon="mdi-eye"
+              label="Mostrar todas las Habitaciones"
+              @click="getAllRooms"
+            />
+          </div>
+          <!-- / Rooms -->
+
           <div class="col-xs-12 text-center">
             <div class="text-h6">INFORMACION PERSONAL</div>
           </div>
@@ -223,6 +236,7 @@ import { onBeforeMount, ref } from 'vue';
 import { IBooking, IRoom } from 'src/types';
 import { $notificationHelper, handleAxiosError } from 'src/helpers';
 import { $api } from 'src/boot/axios';
+import { useQuasar } from 'quasar';
 
 const $emit = defineEmits<{
   (name: 'completed', p: IBooking): void;
@@ -230,6 +244,7 @@ const $emit = defineEmits<{
   (name: 'canceled'): void;
 }>();
 const $props = defineProps<{ booking?: IBooking }>();
+const $q = useQuasar();
 /**
  * -----------------------------------------
  *	Data
@@ -272,6 +287,7 @@ const form = ref<IBooking>({
   comments: '',
   currency: 'USD',
 });
+const showForm = ref(false);
 /**
  * -----------------------------------------
  *	Methods
@@ -285,8 +301,10 @@ async function getAllRooms() {
   try {
     const resp = await $api.get<IRoom[]>('api/rooms');
     availableRooms.value = resp.data;
-    if (availableRooms.value.length)
+    if (availableRooms.value.length) {
       form.value.room_id = availableRooms.value[0].id;
+      showForm.value = true;
+    }
   } catch (error) {
     handleAxiosError(error);
   }
@@ -301,10 +319,20 @@ async function getAvailableRooms() {
       date: form.value.date,
     });
     availableRooms.value = resp.data;
-    if (availableRooms.value.length)
+    if (availableRooms.value.length) {
       form.value.room_id = availableRooms.value[0].id;
+      showForm.value = true;
+    }
     if (!availableRooms.value.length) {
-      $notificationHelper.error('No hay habitaciones disponibles');
+      $q.dialog({
+        title: 'No Hay Disponibilidad',
+        message:
+          'Las habitaciones estan ocupadas en las fechas seleccionadas. Desea mostrar las habitaciones de todas formas?',
+        ok: 'Si',
+        cancel: 'No',
+      }).onOk(async () => {
+        await getAllRooms();
+      });
     }
   } catch (error) {
     handleAxiosError(error);

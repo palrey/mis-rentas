@@ -18,14 +18,7 @@
           type="number"
           label="Capacidad"
         />
-        <q-input
-          v-model="form.address"
-          required
-          mask="X"
-          reverse-fill-mask
-          type="text"
-          label="Direccion"
-        />
+        <q-input v-model="form.address" required label="Direccion" />
         <q-input v-model="form.link" type="text" label="Enlace GPS" />
       </q-card-section>
       <q-card-actions>
