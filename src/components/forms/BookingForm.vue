@@ -28,6 +28,7 @@
             @click="resetCalendar"
           />
         </div>
+        <!-- / Date -->
       </q-card-section>
       <q-card-section class="q-gutter-y-sm" v-if="availableRooms.length">
         <div class="row q-col-gutter-md">
