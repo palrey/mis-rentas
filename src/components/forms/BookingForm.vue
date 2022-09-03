@@ -388,12 +388,12 @@ function resetCalendar() {
 
 onBeforeMount(async () => {
   if ($props.booking) {
+    await getAllRooms();
     form.value = $props.booking;
     const address = form.value.address.split(', ');
     if (address[0]) addressDetails.value.city = address[0];
     if (address[1]) addressDetails.value.state = address[1];
     if (address[2]) addressDetails.value.country = address[2];
-    await getAllRooms();
   }
 });
 </script>
