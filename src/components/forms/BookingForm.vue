@@ -133,17 +133,22 @@
           <div class="col-xs-12 col-sm-6">
             <q-select
               v-model="form.airline_name"
+              ref="airlineNameRef"
               required
+              use-input
+              input-debounce="0"
               label="AEROLINEA"
-              :options="[
-                'Vivaerobus',
-                'MagniCharter',
-                'Aeromar',
-                'Volaris',
-                'Delta',
-                'Copa',
-              ]"
-            />
+              :options="airlineFilterOptions"
+              @filter="filterSelectOptions"
+            >
+              <template #no-option="{ inputValue }">
+                <q-item clickable v-ripple @click="selectNewValue(inputValue)">
+                  <q-item-section
+                    >Elegir "{{ inputValue }}" como AEROLINEA</q-item-section
+                  >
+                </q-item>
+              </template></q-select
+            >
           </div>
           <!-- Airline Fly -->
           <div class="col-xs-12 col-sm-6">
@@ -246,6 +251,7 @@ const $emit = defineEmits<{
 }>();
 const $props = defineProps<{ booking?: IBooking }>();
 const $q = useQuasar();
+
 /**
  * -----------------------------------------
  *	Data
@@ -289,6 +295,18 @@ const form = ref<IBooking>({
   currency: 'USD',
 });
 const showForm = ref(false);
+
+const AIRLINE_OPTIONS = [
+  'Vivaerobus',
+  'MagniCharter',
+  'Aeromar',
+  'Volaris',
+  'Delta',
+  'Copa',
+];
+
+const airlineFilterOptions = ref<string[]>(AIRLINE_OPTIONS);
+const airlineNameRef = ref(null);
 /**
  * -----------------------------------------
  *	Methods
@@ -396,4 +414,36 @@ onBeforeMount(async () => {
     if (address[2]) addressDetails.value.country = address[2];
   }
 });
+
+/**
+ * Filter function for inputs
+ */
+const filterSelectOptions = (value: string, updated: CallableFunction) => {
+  updated(() => {
+    if (value === '') {
+      airlineFilterOptions.value = AIRLINE_OPTIONS;
+    } else {
+      const needle = value.toLowerCase();
+      airlineFilterOptions.value = AIRLINE_OPTIONS.filter(
+        (item) => item.toLowerCase().indexOf(needle) > -1
+      );
+    }
+  });
+};
+
+/**
+ *
+ */
+const selectNewValue = (value: string) => {
+  if (value.length > 0) {
+    if (!AIRLINE_OPTIONS.includes(value)) {
+      airlineFilterOptions.value.push(value);
+      console.log(airlineFilterOptions.value);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      airlineNameRef.value.updateInputValue('', true);
+      form.value.airline_name = value;
+    }
+  }
+};
 </script>
