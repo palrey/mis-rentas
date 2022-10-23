@@ -134,7 +134,6 @@
             <q-select
               v-model="form.airline_name"
               ref="airlineNameRef"
-              required
               use-input
               input-debounce="0"
               label="AEROLINEA"
