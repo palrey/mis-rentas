@@ -54,3 +54,21 @@ export interface IRoom {
   address: string;
   link?: string;
 }
+
+
+export interface IPaginated<T> {
+  data: T;
+  links: {
+    first?: string;
+    last?: string;
+    prev?: string;
+    next?: string;
+  }
+  meta: {
+    current_page: number;
+    from?: number;
+    path?: string;
+    per_page: number;
+    to?: number;
+  }
+}
