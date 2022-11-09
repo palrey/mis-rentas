@@ -88,7 +88,7 @@ function closeDialog() {
  * @param b
  */
 function onBookingComplete(b: IBooking) {
-  bookings.value.push(b);
+  bookings.value.unshift(b);
   closeDialog();
 }
 /**
