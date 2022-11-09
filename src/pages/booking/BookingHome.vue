@@ -27,6 +27,19 @@
             </div>
           </div>
         </q-card-section>
+        <q-card-section>
+          <div class="q-pa-lg flex flex-center">
+            <q-btn
+              icon="mdi-skip-previous-outline"
+              @click="loadData(currentPage - 1)"
+              v-if="currentPage > 1"
+            />
+            <q-btn
+              icon="mdi-skip-next-outline"
+              @click="loadData(currentPage + 1)"
+            />
+          </div>
+        </q-card-section>
       </q-card>
     </section>
   </q-page>
@@ -45,7 +58,7 @@
 <script setup lang="ts">
 import BookingForm from 'src/components/forms/BookingForm.vue';
 import BookingWidget from 'src/components/widgets/BookingWidget.vue';
-import { IBooking } from 'src/types';
+import { IBooking, IPaginated } from 'src/types';
 import { onBeforeMount, ref } from 'vue';
 import { handleAxiosError, isMobile } from 'src/helpers';
 import { $api } from 'src/boot/axios';
@@ -57,6 +70,7 @@ import { $api } from 'src/boot/axios';
 const dialogForm = ref(false);
 const bookings = ref<IBooking[]>([]);
 const bookingEdit = ref<IBooking>();
+const currentPage = ref(1);
 /**
  * -----------------------------------------
  *	Methods
@@ -111,12 +125,25 @@ function onRemoved(id: number) {
   }
   closeDialog();
 }
-
-onBeforeMount(async () => {
+/**
+ * loadData
+ * @param page
+ */
+async function loadData(page = 0) {
   try {
-    bookings.value = (await $api.get<IBooking[]>('api/bookings')).data;
+    bookings.value = [];
+    const data = (
+      await $api.get<IPaginated<IBooking[]>>(`api/bookings?page=${page}`)
+    ).data;
+    bookings.value = data.data;
+    currentPage.value = data.meta.current_page;
+    console.log({ currentPage: currentPage.value, data });
   } catch (error) {
     handleAxiosError(error);
   }
+}
+
+onBeforeMount(async () => {
+  await loadData();
 });
 </script>
